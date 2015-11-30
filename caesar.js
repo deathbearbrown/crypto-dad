@@ -1,5 +1,4 @@
 
-var _ = require('lodash');
 var bet = [
         'a',
         'b',
@@ -30,35 +29,24 @@ var bet = [
     ];
 
 
-function lookup(n,a, positive){
-  var betIndex = bet.indexOf(a);
+function lookup(n,a){
+  var betIndex = bet.indexOf(a) + n;
 
-  if (positive){
-    var indexsum = betIndex + n;
-    if (indexsum > bet.length){
-      return bet[indexsum - bet.length];
-    }else{
-      return bet[indexsum];
-    }
-  } else {
-    var indexsum = betIndex - n;
-    if (indexsum < 0){
-      return bet[bet.length + indexsum];
-    }else{
-      return bet[indexsum];
-    }
+  if (betIndex < 0 ){
+    betIndex += bet.length;
   }
-
+  
+  return bet[betIndex % bet.length];
 }
 
-function caesar(n, text, positive){
+function caesar(n, text){
   var alphaL = bet.length;
   var textMultiArray = text.split('');
   var answer = [];
   textMultiArray.forEach(function(ele, i, newPhrase) {
   	var newletter = ele;
     if (!ele.match(/[^A-Za-z0-9_]/g,'')){
-			newletter = lookup(n,ele.toLowerCase(),positive);
+			newletter = lookup(n,ele.toLowerCase());
     }
     answer.push(newletter);
   });
@@ -67,7 +55,6 @@ function caesar(n, text, positive){
 
 var nonsense = process.argv[2];
 var magicNumber = parseFloat(process.argv[3]);
-var direction = (process.argv[4] === "true");
 
-console.log(caesar(magicNumber, nonsense, direction));
+console.log(caesar(magicNumber, nonsense));
 

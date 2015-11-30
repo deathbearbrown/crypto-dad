@@ -31,24 +31,14 @@ var bet = [
 
 
 function lookup(n,a, positive){
-  var betIndex = bet.indexOf(a);
 
-  if (positive){
-    var indexsum = betIndex + n;
-    if (indexsum > bet.length){
-      return bet[indexsum - bet.length];
-    }else{
-      return bet[indexsum];
-    }
-  } else {
-    var indexsum = betIndex - n;
-    if (indexsum < 0){
-      return bet[bet.length + indexsum];
-    }else{
-      return bet[indexsum];
-    }
+ var betIndex = bet.indexOf(a) - n;
+
+  if (betIndex < 0 ){
+    betIndex += bet.length;
   }
-
+  
+  return bet[betIndex % bet.length];
 }
 
 function decodeSecret(magicWord,secret) {
